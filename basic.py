@@ -19,7 +19,7 @@ class Error:
 		self.details = details
 
 	def as_string(self):
-		result = f'{self.error_name}:{self.details}' ##display error and Details
+		result = f'{self.error_name}:{self.details}\n' ##display error and Details
 		result += f'File {self.pos_start.fn}, Line{self.pos_start.ln+1}'
 		return result
 
@@ -29,7 +29,7 @@ class IllegalCharError(Error): ##sub class of error invoked when a lexer comes a
 
 class InvalidSyntaxError(Error): ##sub class of error invoked when a parser comes across an invalid syntax
 	def __init__(self, pos_start, pos_end, details):
-		super().__init__(pos_start,pos_end,'Invalid Character',details)
+		super().__init__(pos_start,pos_end,'Invalid Syntax',details)
 
 ########################################################
 ##	POSITION
@@ -90,7 +90,7 @@ class Token:
 
 	def __repr__(self): #Returns the Token 
 		if self.value:
-			return f'{self.value}:{self.type}'
+			return f'{self.type}:{self.value}'
 		return f'{self.type}'
 
 
@@ -202,7 +202,7 @@ class UnaryOpNode:
 		self.node = node
 
 	def __repr__(self):
-		return f'{self.op_tok}, {self.node}'
+		return f'({self.op_tok}, {self.node})'
 
 
 ########################################################
@@ -281,7 +281,7 @@ class Parser:
 				res.register(self.advance())
 				return res.success(expr)
 			else:
-				return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end, "Expected ')' 1"))
+				return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end, "Expected ')' "))
 
 
 		return res.failure(InvalidSyntaxError(tok.pos_start, tok.pos_end, "Expected int or float")) ## if the token type is not INT or FLOAT
