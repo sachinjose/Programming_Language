@@ -291,7 +291,7 @@ class Parser:
 		return res
 	#########################################################
 
-	def factor(self):
+	def atom(self):
 		res = ParseResult()
 		tok = self.current_tok
 
