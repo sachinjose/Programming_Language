@@ -229,6 +229,7 @@ class UnaryOpNode:
 		self.op_tok = op_tok
 		self.node = node
 
+		self.pos_start = op_tok.pos_start
 		self.pos_end = node.pos_end
 
 	def __repr__(self):
