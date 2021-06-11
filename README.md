@@ -17,3 +17,16 @@ ELIF <condition>
 	THEN <expression>
 ELSE
 	<expression>
+
+
+FOR statements work as follows. It also takes in a STEP parameter
+
+FOR <var_name> = <start_value> TO <end_value> THEN <expression>
+FOR <var_name> = <start_value> TO <end_value> STEP <step_value> THEN <expression>
+ 
+ eg FOR i=0 to 10 THEN result = result*i
+ 
+ 
+WHILE statements work as follows 
+
+WHILE <condition> THEN <expr>
