@@ -30,3 +30,12 @@ FOR <var_name> = <start_value> TO <end_value> STEP <step_value> THEN <expression
 WHILE statements work as follows 
 
 WHILE <condition> THEN <expr>
+
+
+FUNCTIONS are declared as follows
+
+FUN <function_name> ( <arguments> ) -> <expression>
+
+ eg FUN add(a,b) -> a+b is a function to add a and b 
+
+
