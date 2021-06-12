@@ -39,3 +39,14 @@ FUN <function_name> ( <arguments> ) -> <expression>
  eg FUN add(a,b) -> a+b is a function to add a and b 
 
 
+LISTS
+
+Lists can be declared using a [] operator 
+[]
+[1,2,3,4]
+
+[1,2,3,4,5] + 6 => [1,2,3,4,5,6]
+[1,2,3] * [4,5,6] => [1,2,3,4,5,6]
+[1,2,3]/0 => 1
+
+
