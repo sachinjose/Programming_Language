@@ -214,10 +214,10 @@ class Lexer:
 				tokens.append(Token(TT_RPAREN, pos_start = self.pos))
 				self.advance()
 			elif self.current_char == '[':
-				tokens.append(Token(TT_LSQUARE, pos_start = self.pos))
+				tokens.append(Token(TT_LSQUARE, pos_start=self.pos))
 				self.advance()
 			elif self.current_char == ']':
-				tokens.append(Token(TT_RSQUARE, pos_start = self.pos))
+				tokens.append(Token(TT_RSQUARE, pos_start=self.pos))
 				self.advance()
 			elif self.current_char == ',':
 				tokens.append(Token(TT_COMMA, pos_start = self.pos))
@@ -555,18 +555,11 @@ class Parser:
 			else:
 				return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end, "Expected ')' "))
 
-		elif tok.type == TT_LSQUARE :
-			res.register_advancements()
-			self.advance()
-			list_expr = res.register(self.list_expr())
-			if res.error:
-				return res
-			if self.current_tok.type == TT_RSQUARE:
-				res.register_advancements()
-				self.advance()
-				return res.success(list_expr)
-			else:
-				return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end, "Expected ']' "))
+		elif tok.type == TT_LSQUARE:
+		  list_expr = res.register(self.list_expr())
+		  if res.error: 
+		  	return res
+		  return res.success(list_expr)
 
 		elif tok.matches(TT_KEYWORD, 'IF'):
 			if_expr = res.register(self.if_expr())
@@ -604,37 +597,31 @@ class Parser:
 		if self.current_tok.type != TT_LSQUARE:
 			return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end,f"Expected '['"))
 
-		res.register_advancement()
+		res.register_advancements()
 		self.advance()
 
 		if self.current_tok.type == TT_RSQUARE:
-			res.register_advancement()
-			self.advance()
+		  res.register_advancements()
+		  self.advance()
 		else:
-			element_nodes.append(res.register(self.expr()))
+		  element_nodes.append(res.register(self.expr()))
+		  if res.error:
+		    return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end,"Expected ']', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"))
 
-		if res.error:
-			return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end,"Expected ']', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"))
+		  while self.current_tok.type == TT_COMMA:
+		    res.register_advancements()
+		    self.advance()
 
-		while self.current_tok.type == TT_COMMA:
+		    element_nodes.append(res.register(self.expr()))
+		    if res.error: return res
 
-			res.register_advancement()
-			self.advance()
-
-			element_nodes.append(res.register(self.expr()))
-			
-			if res.error: 
-				return res
-
-		if self.current_tok.type != TT_RSQUARE:
+		  if self.current_tok.type != TT_RSQUARE:
 			return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end,f"Expected ',' or ']'"))
 
-		res.register_advancement()
-		self.advance()
+		  res.register_advancements()
+		  self.advance()
 
 		return res.success(ListNode(element_nodes,pos_start,self.current_tok.pos_end.copy()))
-
-
 
 	def if_expr(self):
 		res = ParseResult()
@@ -805,7 +792,7 @@ class Parser:
 			else:
 				arg_nodes.append(res.register(self.expr()))
 				if res.error:
-					return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end,"Expected ')', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(' or 'NOT'"))
+					return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end,"Expected ')', 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'"))
 
 				while self.current_tok.type == TT_COMMA:
 					res.register_advancements()
@@ -869,7 +856,7 @@ class Parser:
 		node = res.register(self.bin_op(self.arith_expr,(TT_EE,TT_NE,TT_LT,TT_GT,TT_LTE,TT_GTE)))
 
 		if res.error:
-			return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end, "Expected int, float, Identifier or '+', '-', or 'NOT' "))
+			return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end, "Expected int, float, identifier, '+', '-', '(', '[', 'IF', 'FOR', 'WHILE', 'FUN' or 'NOT'"))
 
 		return res.success(node)
 
@@ -902,7 +889,7 @@ class Parser:
 		node = res.register(self.bin_op(self.comp_expr, ((TT_KEYWORD,"AND"),(TT_KEYWORD,"OR"))))
 
 		if res.error:
-			return res.failure(InvalidSyntaxError(self.current_tok.pos_start,self.current_tok.pos_end,"Expected VAR, 'IF', 'FOR', 'WHILE', 'FUN',int, float, Identifier or '+', '-', '[' or '(' ")) ##overwrite error with term 
+			return res.failure(InvalidSyntaxError(self.current_tok.pos_start,self.current_tok.pos_end,"Expected 'VAR', 'IF', 'FOR', 'WHILE', 'FUN', int, float, identifier, '+', '-', '(', '[' or 'NOT'")) ##overwrite error with term 
 		else:
 			return res.success(node)
 
