@@ -6,6 +6,7 @@
 3. Created an Interpreter to parse the Abstract Syntax Tree
 4. Created a Symbol Tree to store and edit variables
 
+VARIABLES
 
 Declare a variable using the VAR keyword eg: VAR a = 10
 
@@ -48,5 +49,24 @@ Lists can be declared using a [] operator
 [1,2,3,4,5] + 6 => [1,2,3,4,5,6]
 [1,2,3] * [4,5,6] => [1,2,3,4,5,6]
 [1,2,3]/0 => 1
+
+BUILT IN FUNCTIONS 
+
+PRINT("HELLO WORLD")
+PRINT --> Print values from a list 
+PRINT_RET --> Instead of printing it on the screen it will return the value that is printed 
+INPUT --> For String Inputs
+INPUT_INT --> For Integer Inputs
+CLEAR --> To clear the screen 
+IS_NUMBER --> To check if it is a number
+IS_STRING --> To check if it is a string
+IS_LIST --> to check if an object is a list
+IS_FUNCTION --> To check if an object is a function 
+APPEND -->Add Element to a list
+POP -->Pop will remove an element from a list 
+EXTEND --> Extend will concatenat lists together
+
+
+
 
 
