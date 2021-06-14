@@ -12,10 +12,12 @@ Declare a variable using the VAR keyword eg: VAR a = 10
 
 IF statements work as follows. IF statements are expressions by default.
 
-IF <condition> 
-	THEN <expression>
-ELIF <condition>
-	THEN <expression>
+IF <condition> THEN 
+	<expression>
+	<expression>
+ELIF <condition>THEN 
+	<expression>
+	<expression>
 ELSE
 	<expression>
 
@@ -39,6 +41,9 @@ FUN <function_name> ( <arguments> ) -> <expression>
 
  eg FUN add(a,b) -> a+b is a function to add a and b 
 
+FUN <function_name> ( <arguments> )
+	<expression>
+	<expression>
 
 LISTS
 
@@ -49,6 +54,8 @@ Lists can be declared using a [] operator
 [1,2,3,4,5] + 6 => [1,2,3,4,5,6]
 [1,2,3] * [4,5,6] => [1,2,3,4,5,6]
 [1,2,3]/0 => 1
+
+NEW LINE is represented by a semi colon ;
 
 BUILT IN FUNCTIONS 
 
